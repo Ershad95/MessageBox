@@ -1,0 +1,120 @@
+﻿<Window x:Class="MessageBoxDll.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MessageBoxDll"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="231.069" Width="413.167" Background="{x:Null}" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,0,-2.644" d:LayoutOverrides="VerticalAlignment">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+        <Rectangle x:Name="rec_body" Margin="35.4,-17.2,43.367,47.113" Stroke="#00000000" RadiusY="10" RadiusX="10" Grid.Row="1" Grid.RowSpan="2" Visibility="Hidden">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF38C813" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rec_header" Margin="14.8,0.315,17.567,0" RadiusY="10" RadiusX="10" Stroke="#00000000" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Height="29.329" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF38C813" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rec_footer" Margin="16,28.315,17.167,0" RadiusY="10" RadiusX="10" Stroke="#00000000" VerticalAlignment="Top" Grid.Row="2" Width="380" Height="20" RenderTransformOrigin="0.5,0.5" StrokeDashCap="Triangle">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF38C813" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse x:Name="btnClose" HorizontalAlignment="Right" Height="15.2" Margin="0,0,23.967,12.8" Stroke="#00000000" VerticalAlignment="Bottom" Width="17.6" Visibility="Hidden">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF373228" Offset="0"/>
+                    <GradientStop Color="#FFF40B0B" Offset="1"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Label x:Name="X" Content="x" HorizontalAlignment="Right" Margin="0,23.8,24.767,10.4" Width="15.2" Foreground="#FFF6F1F1" Visibility="Hidden"/>
+        <Image x:Name="Icon" HorizontalAlignment="Left" Margin="46.8,0.8,0,1.871" Width="30.4" MaxWidth="36.8" MaxHeight="29" Source="error.png" RenderTransformOrigin="0.553,0.441" Grid.Row="1" Visibility="Hidden"/>
+        <TextBlock x:Name="txtmsg" Margin="66,7.509,63.167,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFF4F1F1" Visibility="Hidden"/>
+        <Button x:Name="btn1" Content="Ok" HorizontalAlignment="Right" Margin="0,52.515,49.567,63.313" Grid.Row="2" Width="42.1" Style="{DynamicResource ButtonStyle2}" Foreground="White" Visibility="Hidden">
+            <Button.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="Dictionary1.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btn2" Content="" HorizontalAlignment="Right" Margin="0,52.515,99.167,63.313" Grid.Row="2" Width="42.1" Style="{DynamicResource ButtonStyle2}" Foreground="White" Visibility="Hidden"/>
+        <Button x:Name="btn3" Content="" HorizontalAlignment="Right" Margin="0,52.515,150.367,61.713" Grid.Row="2" Width="42.1" RenderTransformOrigin="0.648,0.517" Style="{DynamicResource ButtonStyle2}" Foreground="White" Visibility="Hidden"/>
+        <Label MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"  x:Name="title" Content="" Margin="31.6,24.8,48.767,2.441" Foreground="#FFFFFDFD" Visibility="Hidden"/>
+    </Grid>
+</Window>
